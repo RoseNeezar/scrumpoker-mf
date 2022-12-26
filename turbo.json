@@ -1,0 +1,19 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "pipeline": {
+    "build": {
+      "outputs": ["dist/**"],
+      "dependsOn": ["^build"]
+    },
+    "dev": {
+      "dependsOn": ["@scrumpoker-mf/prisma#build"],
+      "cache": false
+    },
+    "clean": {
+      "cache": false
+    },
+    "start": {
+      "cache": false
+    }
+  }
+}

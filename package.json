@@ -1,0 +1,14 @@
+{
+  "name": "scrumpoker-mf",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev --parallel",
+    "start": "turbo run start --parallel",
+    "clean": "turbo run clean && rm -rf node_modules"
+  },
+  "devDependencies": {
+    "turbo": "^1.6.3"
+  }
+}
