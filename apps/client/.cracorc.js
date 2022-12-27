@@ -9,7 +9,7 @@ module.exports = {
   webpack: {
     configure: {
       output: {
-        publicPath: "http://localhost:3000/",
+        publicPath: "auto",
       },
     },
     module: {

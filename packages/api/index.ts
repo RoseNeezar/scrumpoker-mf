@@ -1,38 +1,15 @@
 import express from "express";
 import cors from "cors";
-import { inferAsyncReturnType, initTRPC } from "@trpc/server";
-import { z } from "zod";
 import * as trpcExpress from "@trpc/server/adapters/express";
-import { prisma } from "@scrumpoker-mf/prisma";
+import { router } from "./trpc";
+import { userRouter } from "./router/user";
+import { gameRouter } from "./router/game";
+import { createContext } from "./context";
+import AuthRoute from "./router/auth-pusher";
 
-const createContext = ({
-  req,
-  res,
-}: trpcExpress.CreateExpressContextOptions) => ({});
-
-type Context = inferAsyncReturnType<typeof createContext>;
-
-const t = initTRPC.context<Context>().create();
-
-const appRouter = t.router({
-  getUser: t.procedure
-    .input(z.object({ userId: z.number() }))
-    .query(async ({ input }) => {
-      return { hello: "world" };
-    }),
-  createUser: t.procedure
-    .input(
-      z.object({
-        name: z.string(),
-        email: z.string().email(),
-      })
-    )
-    .mutation(async ({ input }) => {
-      const user = await prisma.user.create({
-        data: input,
-      });
-      return user;
-    }),
+const appRouter = router({
+  user: userRouter,
+  game: gameRouter,
 });
 
 export type AppRouter = typeof appRouter;
@@ -47,6 +24,7 @@ app
     console.log(req.method, req.path, req.body ?? req.query);
     next();
   })
+  .use("/api", AuthRoute)
   .use(
     "/trpc",
     trpcExpress.createExpressMiddleware({ router: appRouter, createContext })
