@@ -38,6 +38,7 @@ importers:
       react-dom: ^18.2.0
       react-hot-toast: ^2.4.0
       react-scripts: 5.0.1
+      superjson: ^1.12.1
       tailwindcss: ^3.2.0
       typescript: ^4.9.4
       web-vitals: ^2.1.4
@@ -56,6 +57,7 @@ importers:
       react-dom: 18.2.0_react@18.2.0
       react-hot-toast: 2.4.0_biqbaboplfbrettd7655fr4n2y
       react-scripts: 5.0.1_o77wnou4wwnegu5woljtklrzru
+      superjson: 1.12.1
       web-vitals: 2.1.4
     devDependencies:
       '@craco/craco': 6.4.5_5fexjyl53fxifkedbahdwgm5jq

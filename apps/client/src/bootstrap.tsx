@@ -5,6 +5,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./styles/globals.css";
 import { trpc } from "./utils/trpc";
+import superjson from "superjson";
 
 function Client() {
   const [queryClient] = useState(
@@ -26,6 +27,7 @@ function Client() {
           url: "http://localhost:3001/trpc",
         }),
       ],
+      transformer: superjson,
     })
   );
 
