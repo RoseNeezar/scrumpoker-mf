@@ -14,8 +14,6 @@ services:
       SOKETI_DEFAULT_APP_ENABLE_CLIENT_MESSAGES: true
       SOKETI_DEFAULT_APP_MAX_CLIENT_EVENTS_PER_SEC: 10
       SOKETI_DEFAULT_APP_USER_AUTHENTICATION: true
-    # networks:
-    #   - soketi_network
   mongodb1:
     image: prismagraphql/mongo-single-replica:4.4.3-bionic
     hostname: localhost
@@ -27,6 +25,3 @@ services:
       INIT_WAIT_SEC: 3
     ports:
       - "27017:27017"
-# networks:
-#   soketi_network:
-#     driver: bridge
