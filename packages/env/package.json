@@ -1,0 +1,14 @@
+{
+  "name": "@scrumpoker-mf/env",
+  "private": true,
+  "version": "0.0.0",
+  "main": "server.mjs",
+  "scripts": {},
+  "dependencies": {
+    "zod": "^3.19.1"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "typescript": "^4.9.3"
+  }
+}

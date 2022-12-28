@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "scripts": {
-    "dev": "craco start",
+    "dev": "BROWSER=none craco start",
     "build": "craco build",
     "test": "craco test",
     "eject": "craco eject"
@@ -23,11 +23,13 @@
     "react-hot-toast": "^2.4.0",
     "react-scripts": "5.0.1",
     "superjson": "^1.12.1",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "pusher-js": "^7.5.0"
   },
   "devDependencies": {
     "@craco/craco": "^6.4.5",
     "@scrumpoker-mf/api": "*",
+    "@scrumpoker-mf/env": "*",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
