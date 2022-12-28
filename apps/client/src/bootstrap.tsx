@@ -6,6 +6,7 @@ import App from "./App";
 import "./styles/globals.css";
 import { trpc } from "./utils/trpc";
 import superjson from "superjson";
+import { BrowserRouter } from "react-router-dom";
 
 const getBaseUrl = () => {
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`; // SSR should use vercel url
@@ -40,7 +41,9 @@ function Client() {
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        <App />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </QueryClientProvider>
     </trpc.Provider>
   );
