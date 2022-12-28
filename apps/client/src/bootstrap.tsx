@@ -5,6 +5,13 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./styles/globals.css";
 import { trpc } from "./utils/trpc";
+import superjson from "superjson";
+
+const getBaseUrl = () => {
+  if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`; // SSR should use vercel url
+
+  return `http://localhost:3001`; // dev SSR should use localhost
+};
 
 function Client() {
   const [queryClient] = useState(
@@ -23,9 +30,10 @@ function Client() {
     trpc.createClient({
       links: [
         httpBatchLink({
-          url: "http://localhost:3001/trpc",
+          url: `${getBaseUrl()}/api/trpc`,
         }),
       ],
+      transformer: superjson,
     })
   );
 

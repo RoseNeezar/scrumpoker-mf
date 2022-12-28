@@ -24,9 +24,9 @@ app
     console.log(req.method, req.path, req.body ?? req.query);
     next();
   })
-  .use("/api", AuthRoute)
+  .use("/api/pusher", AuthRoute)
   .use(
-    "/trpc",
+    "/api/trpc",
     trpcExpress.createExpressMiddleware({ router: appRouter, createContext })
   )
   .listen(PORT, () => {
