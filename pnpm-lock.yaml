@@ -30,7 +30,9 @@ importers:
       '@types/react-dom': ^18.0.10
       '@types/webfontloader': ^1.6.35
       autoprefixer: ^10.4.7
+      clsx: ^1.2.1
       daisyui: ^2.38.0
+      eslint-plugin-tailwindcss: ^3.8.0
       framer-motion: 6.5.1
       history: ^5.3.0
       immer: ^9.0.16
@@ -48,6 +50,7 @@ importers:
       react-router-dom: ^6.6.1
       react-scripts: 5.0.1
       superjson: ^1.12.1
+      tailwind-merge: ^1.8.1
       tailwindcss: ^3.2.0
       typescript: ^4.9.4
       web-vitals: ^2.1.4
@@ -62,6 +65,7 @@ importers:
       '@trpc/client': 10.7.0_@trpc+server@10.7.0
       '@trpc/react-query': 10.7.0_x4ie6nhblo2vtx2aafrgzlfqy4
       '@trpc/server': 10.7.0
+      clsx: 1.2.1
       daisyui: 2.46.0_r4gnkvssmvyxmi2wmat5xbx36a
       framer-motion: 6.5.1_biqbaboplfbrettd7655fr4n2y
       history: 5.3.0
@@ -76,6 +80,7 @@ importers:
       react-router-dom: 6.6.1_biqbaboplfbrettd7655fr4n2y
       react-scripts: 5.0.1_o77wnou4wwnegu5woljtklrzru
       superjson: 1.12.1
+      tailwind-merge: 1.8.1
       web-vitals: 2.1.4
       webfontloader: 1.6.28
       zod: 3.20.2
@@ -92,6 +97,7 @@ importers:
       '@types/react-dom': 18.0.10
       '@types/webfontloader': 1.6.35
       autoprefixer: 10.4.13_postcss@8.4.20
+      eslint-plugin-tailwindcss: 3.8.0
       node-polyfill-webpack-plugin: 2.0.1
       postcss: 8.4.20
       prettier: 2.8.1
@@ -3775,6 +3781,11 @@ packages:
       strip-ansi: 6.0.1
       wrap-ansi: 7.0.0
 
+  /clsx/1.2.1:
+    resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
+    engines: {node: '>=6'}
+    dev: false
+
   /co/4.6.0:
     resolution: {integrity: sha512-QVb0dM5HvG+uaxitm8wONl7jltx8dqhfU33DcqtOZcLSVIKSDDLDi7+0LbAKiyI8hD9u42m2YxXSkMGWThaecQ==}
     engines: {iojs: '>= 1.0.0', node: '>= 0.12.0'}
@@ -5220,6 +5231,17 @@ packages:
       resolve: 2.0.0-next.4
       semver: 6.3.0
       string.prototype.matchall: 4.0.8
+
+  /eslint-plugin-tailwindcss/3.8.0:
+    resolution: {integrity: sha512-Lsyncgp/eXZriAEUK9zfGHOH+9iQplygHiOuGY8SFFHKIeT0BYjyST/ownHF8UPa1TEh+jJPkdE2vlV3778C3w==}
+    engines: {node: '>=12.13.0'}
+    dependencies:
+      fast-glob: 3.2.12
+      postcss: 8.4.20
+      tailwindcss: 3.2.4_postcss@8.4.20
+    transitivePeerDependencies:
+      - ts-node
+    dev: true
 
   /eslint-plugin-testing-library/5.9.1_lzzuuodtsqwxnvqeq4g4likcqa:
     resolution: {integrity: sha512-6BQp3tmb79jLLasPHJmy8DnxREe+2Pgf7L+7o09TSWPfdqqtQfRZmZNetr5mOs3yqZk/MRNxpN3RUpJe0wB4LQ==}
@@ -10272,6 +10294,10 @@ packages:
 
   /symbol-tree/3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
+
+  /tailwind-merge/1.8.1:
+    resolution: {integrity: sha512-+fflfPxvHFr81hTJpQ3MIwtqgvefHZFUHFiIHpVIRXvG/nX9+gu2P7JNlFu2bfDMJ+uHhi/pUgzaYacMoXv+Ww==}
+    dev: false
 
   /tailwindcss/3.2.4_postcss@8.4.20:
     resolution: {integrity: sha512-AhwtHCKMtR71JgeYDaswmZXhPcW9iuI9Sp2LvZPo9upDZ7231ZJ7eA9RaURbhpXGVlrjX4cFNlB4ieTetEb7hQ==}

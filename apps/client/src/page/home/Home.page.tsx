@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
+import PageHeading from "../../components/PageHeading";
 
 type Props = {};
 
@@ -11,6 +12,7 @@ const Home = (props: Props) => {
       <div className="min-h-screen hero bg-base-200">
         <div className="text-center hero-content">
           <div className="max-w-md">
+            <PageHeading highlights>New headeing</PageHeading>
             <h1 className="text-5xl font-bold">Scrumpoker</h1>
             <p className="py-6 text-lg">
               Scrum poker is a fun game that helps teams estimate task size and
