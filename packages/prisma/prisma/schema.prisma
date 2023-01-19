@@ -6,22 +6,26 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+model Player {
+  id              String  @id @default(auto()) @map("_id") @db.ObjectId
+  is_party_leader Boolean
+  vote            Int     @default(0)
+  nickname        String  @unique
+  game_id         String  @db.ObjectId
+  game            Game    @relation(fields: [game_id], references: [id])
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  Int
+model Game {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  points     Int[]
+  is_open    Boolean  @default(true)
+  is_over    Boolean  @default(false)
+  start_time Int
+  players    Player[]
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
