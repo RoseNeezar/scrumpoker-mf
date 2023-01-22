@@ -1,10 +1,11 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
+import { trpc } from "../../utils/trpc";
 
 type Props = {};
 
 const Home = (props: Props) => {
   const location = useLocation();
-
+  const { data } = trpc.game.createGame.useQuery();
   return (
     <div className="flex items-center justify-center h-screen bg-cyan-800">
       <div className="min-h-screen hero bg-base-200">
@@ -20,7 +21,7 @@ const Home = (props: Props) => {
               <div className="mr-3 btn btn-primary">Create Game</div>
             </Link>
             <Link to="join-game" state={{ background: location }}>
-              <div className="btn btn-secondary">Join Game</div>
+              <div className="btn btn-secondary">Join Game - {data?.game}</div>
             </Link>
           </div>
         </div>

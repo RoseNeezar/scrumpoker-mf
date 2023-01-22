@@ -2,13 +2,20 @@
   "name": "scrumpoker-mf",
   "version": "0.0.0",
   "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "build": "turbo run build",
-    "dev": "turbo run dev --parallel",
+    "dev": "turbo run dev --filter=\"@scrumpoker-mf/api\" ",
     "start": "turbo run start --parallel",
-    "clean": "turbo run clean && rm -rf node_modules"
+    "clean": "turbo run clean && rm -rf node_modules",
+    "ttry": "turbo prune --scope=\"@scrumpoker-mf/api\" --docker"
   },
   "devDependencies": {
     "turbo": "^1.6.3"
-  }
+  },
+  "packageManager": "yarn@1.22.19"
 }

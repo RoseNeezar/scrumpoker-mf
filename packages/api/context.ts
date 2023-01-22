@@ -1,5 +1,5 @@
 import { type inferAsyncReturnType } from "@trpc/server";
-import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
+import { type CreateExpressContextOptions } from "@trpc/server/adapters/express";
 import { prisma } from "@scrumpoker-mf/prisma";
 
 type CreateContextOptions = Record<string, never>;
@@ -10,7 +10,7 @@ export const createContextInner = async (opts: CreateContextOptions) => {
   };
 };
 
-export const createContext = async (opts: CreateNextContextOptions) => {
+export const createContext = async (opts: CreateExpressContextOptions) => {
   return await createContextInner({});
 };
 

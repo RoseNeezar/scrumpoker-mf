@@ -2,13 +2,11 @@ import express from "express";
 import cors from "cors";
 import * as trpcExpress from "@trpc/server/adapters/express";
 import { router } from "./trpc";
-import { userRouter } from "./router/user";
 import { gameRouter } from "./router/game";
 import { createContext } from "./context";
 import AuthRoute from "./router/auth-pusher";
 
 const appRouter = router({
-  user: userRouter,
   game: gameRouter,
 });
 

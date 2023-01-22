@@ -24,7 +24,6 @@ model Game {
   points     Int[]
   is_open    Boolean  @default(true)
   is_over    Boolean  @default(false)
-  start_time Int
   players    Player[]
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
