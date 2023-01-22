@@ -11,7 +11,7 @@ import { BrowserRouter } from "react-router-dom";
 const getBaseUrl = () => {
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`; // SSR should use vercel url
 
-  return `http://localhost:3001`; // dev SSR should use localhost
+  return `http://localhost:3050`; // dev SSR should use localhost
 };
 
 function Client() {

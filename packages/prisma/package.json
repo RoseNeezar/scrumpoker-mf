@@ -5,9 +5,9 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "build": "pnpm exec prisma generate && tsc --declaration",
-    "migrate:dev": "pnpm exec prisma migrate dev",
-    "seed": "pnpm exec prisma db seed",
+    "build": "yarn exec prisma generate && tsc --declaration",
+    "migrate:dev": "yarn exec prisma migrate dev",
+    "seed": "yarn exec prisma db seed",
     "clean": "rm -rf node_modules dist .turbo"
   },
   "devDependencies": {

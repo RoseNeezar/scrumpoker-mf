@@ -25,3 +25,19 @@ services:
       INIT_WAIT_SEC: 3
     ports:
       - "27017:27017"
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - "3050:80"
+  api:
+    platform: linux/amd64
+    depends_on:
+      - mongodb1
+    build:
+      context: .
+      dockerfile: ./packages/api/Dockerfile.server.dev
+    env_file:
+      - .env
