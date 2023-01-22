@@ -41,8 +41,3 @@ services:
       dockerfile: ./packages/api/Dockerfile.server.dev
     env_file:
       - .env
-    volumes:
-      - /app/node_modules
-      - ./server:/app
-volumes:
-  app:
