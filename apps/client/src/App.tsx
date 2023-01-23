@@ -1,10 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { FC } from "react";
 import { Outlet, Route, Routes, useLocation } from "react-router-dom";
-import ModalPage from "./components/ModalPage";
 import Home from "./page/home/Home.page";
-import CreateGame from "./page/home/components/CreateGame";
-import JoinGame from "./page/home/components/JoinGame";
 
 export const Wrapper: FC = () => {
   return (
@@ -34,6 +31,16 @@ export const Wrapper: FC = () => {
   );
 };
 
+const NotFound = () => {
+  return (
+    <div className="bg-dark-main flex h-screen items-center justify-center">
+      <div className="bg-dark-third rounded-lg p-10 text-xl font-bold tracking-widest text-white">
+        Lost ??
+      </div>
+    </div>
+  );
+};
+
 function App() {
   const location = useLocation();
   const background = location.state && location.state.background;
@@ -43,60 +50,14 @@ function App() {
       <AnimatePresence exitBeforeEnter>
         <Routes key={"1"} location={background || location}>
           <Route element={<Wrapper />}>
-            <Route path="/" element={<Home />}>
-              <Route
-                path="/create-game"
-                element={
-                  <ModalPage
-                    isPage={true}
-                    backPath="/"
-                    renderPath="create-game"
-                    body={<CreateGame />}
-                  />
-                }
-              />
-              <Route
-                path="/join-game"
-                element={
-                  <ModalPage
-                    isPage={true}
-                    backPath="/"
-                    renderPath="join-game"
-                    body={<CreateGame />}
-                  />
-                }
-              />
-            </Route>
-            <Route path="/game/:gameID" element={<>game</>} />
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/game/:gameID" element={<h1>game</h1>} />
+            <Route path="*" element={<NotFound />} />
+
+            {/* <Route path="/" element={<Navigate replace to={`/scrumpoker`} />} /> */}
           </Route>
         </Routes>
       </AnimatePresence>
-      {background && (
-        <Routes key={"2"}>
-          <Route
-            path="create-game"
-            element={
-              <ModalPage
-                isPage={true}
-                backPath="/"
-                renderPath="create-game"
-                body={<CreateGame />}
-              />
-            }
-          />
-          <Route
-            path="join-game"
-            element={
-              <ModalPage
-                isPage={true}
-                backPath="/"
-                renderPath="join-game"
-                body={<JoinGame />}
-              />
-            }
-          />
-        </Routes>
-      )}
     </>
   );
 }

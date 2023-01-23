@@ -7,11 +7,12 @@ import "./styles/globals.css";
 import { trpc } from "./utils/trpc";
 import superjson from "superjson";
 import { BrowserRouter } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 const getBaseUrl = () => {
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`; // SSR should use vercel url
 
-  return `http://localhost:3050`; // dev SSR should use localhost
+  return `http://localhost:3001`; // dev SSR should use localhost
 };
 
 function Client() {
@@ -43,6 +44,7 @@ function Client() {
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
           <App />
+          <Toaster />
         </BrowserRouter>
       </QueryClientProvider>
     </trpc.Provider>
