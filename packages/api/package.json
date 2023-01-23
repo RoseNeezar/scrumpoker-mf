@@ -10,13 +10,13 @@
     "clean": "rm -rf node_modules dist .turbo"
   },
   "dependencies": {
-    "@scrumpoker-mf/prisma": "*",
     "@scrumpoker-mf/env": "*",
+    "@scrumpoker-mf/prisma": "*",
     "@trpc/server": "^10.4.3",
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "superjson": "^1.12.1",
     "pusher": "^5.1.2",
+    "superjson": "^1.12.1",
     "zod": "^3.19.1"
   },
   "devDependencies": {
