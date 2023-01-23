@@ -1,15 +1,25 @@
-import { Link, Outlet, useLocation } from "react-router-dom";
 import { trpc } from "../../utils/trpc";
+import { useState } from "react";
+import { Modal } from "../../components/Modal";
+import CreateGame from "./components/CreateGame";
+import JoinGame from "./components/JoinGame";
+import { env } from "@scrumpoker-mf/env";
 
 type Props = {};
 
 const Home = (props: Props) => {
-  const location = useLocation();
-  const { data } = trpc.game.createGame.useQuery();
+  const [openModal, setOpenModal] = useState({
+    openCreateGame: false,
+    openJoinGame: false,
+  });
+  trpc.game.checkGame.useQuery({
+    gameId: "s",
+  });
+  console.log("en--", env.client);
   return (
-    <div className="flex items-center justify-center h-screen bg-cyan-800">
-      <div className="min-h-screen hero bg-base-200">
-        <div className="text-center hero-content">
+    <div className="flex h-screen items-center justify-center bg-cyan-800">
+      <div className="hero min-h-screen bg-base-200">
+        <div className="hero-content text-center">
           <div className="max-w-md">
             <h1 className="text-5xl font-bold">Scrumpoker</h1>
             <p className="py-6 text-lg">
@@ -17,16 +27,36 @@ const Home = (props: Props) => {
               plan work. It's interactive and useful for accurate estimates in
               Agile projects.
             </p>
-            <Link to="create-game" state={{ background: location }}>
-              <div className="mr-3 btn btn-primary">Create Game</div>
-            </Link>
-            <Link to="join-game" state={{ background: location }}>
-              <div className="btn btn-secondary">Join Game - {data?.game}</div>
-            </Link>
+            <div
+              className="btn-primary btn mr-3"
+              onClick={() =>
+                setOpenModal({ ...openModal, openCreateGame: true })
+              }
+            >
+              Create Game
+            </div>
+
+            <div
+              className="btn-secondary btn"
+              onClick={() => setOpenModal({ ...openModal, openJoinGame: true })}
+            >
+              Join Game
+            </div>
           </div>
         </div>
       </div>
-      <Outlet />
+      <Modal
+        open={openModal.openCreateGame}
+        onClose={() => setOpenModal({ ...openModal, openCreateGame: false })}
+      >
+        <CreateGame />
+      </Modal>
+      <Modal
+        open={openModal.openJoinGame}
+        onClose={() => setOpenModal({ ...openModal, openJoinGame: false })}
+      >
+        <JoinGame />
+      </Modal>
     </div>
   );
 };
