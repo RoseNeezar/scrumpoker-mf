@@ -12,10 +12,7 @@ const Home = (props: Props) => {
     openCreateGame: false,
     openJoinGame: false,
   });
-  trpc.game.checkGame.useQuery({
-    gameId: "s",
-  });
-  console.log("en--", env.client);
+
   return (
     <div className="flex h-screen items-center justify-center bg-cyan-800">
       <div className="hero min-h-screen bg-base-200">

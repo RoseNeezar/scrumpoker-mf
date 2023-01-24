@@ -1,6 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { trpc } from "../../../utils/trpc";
+import { useGameStore } from "../../../store/useGame";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 type InputValues = {
   nickname: string;
@@ -13,6 +17,8 @@ const schema = z.object({
 type Props = {};
 
 const CreateGame = (props: Props) => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -21,17 +27,38 @@ const CreateGame = (props: Props) => {
   } = useForm<InputValues>({
     resolver: zodResolver(schema),
   });
+  const { mutateAsync, isLoading } = trpc.game.createGame.useMutation({
+    onSuccess: (data) => {
+      useGameStore.setState({
+        currentPlayer: data.currentPlayer,
+        Game: data.game,
+      });
+
+      if (data.game.id) navigate(`/game/${data.game.id}`);
+    },
+  });
 
   const onSubmit = async (data: InputValues) => {
-    // await mutateAsync(data);
+    try {
+      await mutateAsync({
+        nickname: data.nickname,
+      });
+    } catch (error) {}
+
     reset();
   };
 
+  if (errors.nickname) {
+    toast.error("Enter nicknam", {
+      position: "top-right",
+    });
+  }
+
   return (
-    <div className="text-left bg-gray-600">
+    <div className="bg-gray-600 text-left">
       <div className="flex min-h-full">
-        <div className="flex flex-col justify-center flex-1 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
-          <div className="w-full max-w-sm mx-auto lg:w-96">
+        <div className="flex flex-1 flex-col justify-center px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
+          <div className="mx-auto w-full max-w-sm lg:w-96">
             <div className="mt-8">
               <div>
                 <div className="relative mt-6">
@@ -42,7 +69,7 @@ const CreateGame = (props: Props) => {
                     <div className="w-full border-t border-gray-300" />
                   </div>
                   <div className="relative flex justify-center text-sm">
-                    <span className="p-3 text-lg text-white rounded-lg bg-zinc-500">
+                    <span className="rounded-lg bg-zinc-500 p-3 text-lg text-white">
                       Create Game
                     </span>
                   </div>
@@ -67,13 +94,13 @@ const CreateGame = (props: Props) => {
                         style={{
                           border: !errors.nickname ? "" : "2px solid red",
                         }}
-                        className="block w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-md shadow-sm appearance-none focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                        className="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-indigo-500 sm:text-sm"
                       />
                     </div>
                   </div>
                   <button
                     type="submit"
-                    className={`flex justify-center w-full px-4 py-2 text-sm btn btn-primary `}
+                    className={`btn-primary btn flex w-full justify-center px-4 py-2 text-sm `}
                   >
                     Ok
                   </button>
