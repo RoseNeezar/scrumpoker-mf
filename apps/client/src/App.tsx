@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { FC } from "react";
 import { Outlet, Route, Routes, useLocation } from "react-router-dom";
 import Home from "./page/home/Home.page";
+import Game from "./page/game/Game.page";
 
 export const Wrapper: FC = () => {
   return (
@@ -51,10 +52,8 @@ function App() {
         <Routes key={"1"} location={background || location}>
           <Route element={<Wrapper />}>
             <Route path="/" element={<Home />}></Route>
-            <Route path="/game/:gameID" element={<h1>game</h1>} />
+            <Route path="/game/:gameID" element={<Game />} />
             <Route path="*" element={<NotFound />} />
-
-            {/* <Route path="/" element={<Navigate replace to={`/scrumpoker`} />} /> */}
           </Route>
         </Routes>
       </AnimatePresence>

@@ -5,12 +5,17 @@ import { router } from "./trpc";
 import { gameRouter } from "./router/game";
 import { createContext } from "./context";
 import AuthRoute from "./router/auth-pusher";
+import { Game, Player } from "@prisma/client";
 
 const appRouter = router({
   game: gameRouter,
 });
 
 export type AppRouter = typeof appRouter;
+export type GameType = Omit<Game, "created_at" | "updated_at"> & {
+  players: Player[];
+};
+export type PlayerType = Player;
 
 const PORT = 3001;
 
