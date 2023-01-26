@@ -11,8 +11,7 @@
     "build": "turbo run build",
     "dev": "turbo run dev",
     "start": "turbo run start --parallel",
-    "clean": "turbo run clean && rm -rf node_modules",
-    "ttry": "turbo prune --scope=\"@scrumpoker-mf/api\" --docker"
+    "clean": "turbo run clean && rm -rf node_modules"
   },
   "devDependencies": {
     "turbo": "^1.6.3"
