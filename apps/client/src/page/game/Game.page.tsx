@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
+import GameIDContainer from "../../components/GameIDContainer";
 import ModalPage from "../../components/ModalPage";
 import { useCurrentPlayer, useGame } from "../../store/useGame";
 import { trpc } from "../../utils/trpc";
 import JoinGame from "../home/components/JoinGame";
+import PlayerCards from "./component/PlayerCards";
 
 const Game = () => {
   const pathname = useLocation();
@@ -39,6 +41,7 @@ const Game = () => {
   if (checkGame && checkGame.is_over) {
     return <Navigate to="/" replace />;
   }
+
   return (
     <>
       <div className="m-4">
@@ -51,7 +54,9 @@ const Game = () => {
                   {currentPlayer?.nickname ?? "Who ?"}
                 </div>
               </div>
+              {data.is_open && <GameIDContainer id={data.id} />}
             </div>
+            <PlayerCards />
           </div>
         </div>
       </div>
