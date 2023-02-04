@@ -2,6 +2,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { useGameStore } from "../../../store/useGame";
+import { trpc } from "../../../utils/trpc";
 
 type InputValues = {
   nickname: string;
@@ -29,10 +31,25 @@ const JoinGame = ({ gameID, closeModal }: Props) => {
     resolver: zodResolver(schema),
   });
 
+  const { mutateAsync } = trpc.game.joinGame.useMutation({
+    onSuccess: (data) => {
+      if (data && data.game.id) {
+        useGameStore.setState({
+          currentPlayer: data.currentPlayer,
+          Game: data.game,
+        });
+
+        closeModal && closeModal(false);
+      }
+    },
+  });
+
   const onSubmit = async (data: InputValues) => {
-    // await mutateAsync(data);
-    reset();
-    closeModal && closeModal(false);
+    try {
+      await mutateAsync(data);
+      reset();
+      closeModal && closeModal(false);
+    } catch (error) {}
   };
 
   useEffect(() => {

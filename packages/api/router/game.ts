@@ -11,7 +11,7 @@ export const gameRouter = router({
       let game = await ctx.prisma.game.create({
         data: {
           points: {
-            set: [0, 1, 2, 3, 5, 8, 13, 20, 40, 100, 101, 102],
+            set: [0, 1, 2, 3, 5, 8, 13, 20, 40],
           },
         },
         include: {
@@ -145,10 +145,17 @@ export const gameRouter = router({
       }
 
       game.players.push(player);
-
-      await pusherServerClient.trigger(`game-${input.gameID}`, "update-game", {
-        game,
-      });
+      try {
+        await pusherServerClient.trigger(
+          `game-${input.gameID}`,
+          "update-game",
+          {
+            game,
+          }
+        );
+      } catch (error) {
+        console.log("pusher server error--", error);
+      }
 
       return {
         game,

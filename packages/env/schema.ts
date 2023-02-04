@@ -15,7 +15,7 @@ export const serverSchema = z.object({
   REACT_APP_PUSHER_SERVER_PORT: z.string().optional(),
   REACT_APP_PUSHER_SERVER_TLS: z.string().optional(),
   REACT_APP_PUSHER_APP_CLUSTER: z.string().optional(),
-  REACT_APP_PUSHER_APP_SECRET: z.string().optional(),
+  PUSHER_APP_SECRET: z.string().optional(),
 });
 
 /**
