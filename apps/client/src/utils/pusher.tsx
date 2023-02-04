@@ -1,15 +1,18 @@
 import Pusher, { Channel, PresenceChannel } from "pusher-js";
 import reactZustandCreate from "zustand";
-import vanillaCreate, { StoreApi } from "zustand/vanilla";
+import { createStore, StoreApi } from "zustand";
+import createContext from "zustand/context";
+import React from "react";
+import UserFacade from "pusher-js/types/src/core/user";
 
-const pusher_key = process.env.NEXT_PUBLIC_PUSHER_APP_KEY!;
-const pusher_server_host = process.env.NEXT_PUBLIC_PUSHER_SERVER_HOST!;
+const pusher_key = process.env.REACT_APP_PUSHER_APP_KEY!;
+const pusher_server_host = process.env.REACT_APP_PUSHER_SERVER_HOST!;
 const pusher_server_port = parseInt(
-  process.env.NEXT_PUBLIC_PUSHER_SERVER_PORT!,
+  process.env.REACT_APP_PUSHER_SERVER_PORT!,
   10
 );
-const pusher_server_tls = process.env.NEXT_PUBLIC_PUSHER_SERVER_TLS === "true";
-const pusher_server_cluster = process.env.NEXT_PUBLIC_PUSHER_SERVER_CLUSTER!;
+const pusher_server_tls = process.env.REACT_APP_PUSHER_SERVER_TLS === "true";
+const pusher_server_cluster = process.env.REACT_APP_PUSHER_SERVER_CLUSTER!;
 
 interface PusherZustandStore {
   pusherClient: Pusher;
@@ -36,12 +39,12 @@ const createPusherStore = (
     forceTLS: false,
     cluster: "",
     disableStats: true,
-    authEndpoint: "/api/pusher/auth-channel",
+    authEndpoint: "http://localhost:3001/api/pusher/auth-channel",
     auth: {
       headers: { user_id: playerId, nickname },
     },
     userAuthentication: {
-      endpoint: "/api/pusher/auth-user",
+      endpoint: "http://localhost:3001/api/pusher/auth-user",
       transport: "ajax",
       headers: { user_id: playerId, nickname },
     },
@@ -57,7 +60,7 @@ const createPusherStore = (
     `presence-${gameId}`
   ) as PresenceChannel;
 
-  const newStore = vanillaCreate<PusherZustandStore>((set) => {
+  const newStore = createStore<PusherZustandStore>((set) => {
     return {
       pusherClient: pusherClient,
       channel: channel,
@@ -87,12 +90,9 @@ const createPusherStore = (
  *
  * This creates a "Zustand React Context" that we can provide in the component tree.
  */
-import createContext from "zustand/context";
 const { Provider: PusherZustandStoreProvider, useStore: usePusherStore } =
   createContext<StoreApi<PusherZustandStore>>();
 
-import React from "react";
-import UserFacade from "pusher-js/types/src/core/user";
 /**
  * This provider is the thing you mount in the app to "give access to Pusher"
  *
@@ -157,7 +157,7 @@ export function useSubscribeToEvent<MessageType>(
       userChannel.unbind(eventName, reference);
       presenceChannel.unbind(eventName, reference);
     };
-  }, [channel, eventName, presenceChannel]);
+  }, [channel, eventName, presenceChannel, channelType, userChannel]);
 }
 
 export const useCurrentMemberCount = () =>

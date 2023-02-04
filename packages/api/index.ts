@@ -6,6 +6,7 @@ import { gameRouter } from "./router/game";
 import { createContext } from "./context";
 import AuthRoute from "./router/auth-pusher";
 import { Game, Player } from "@prisma/client";
+import bodyParser, { json } from "body-parser";
 
 const appRouter = router({
   game: gameRouter,
@@ -21,8 +22,10 @@ const PORT = 3001;
 
 const app = express();
 
+app.use(cors());
 app
-  .use(cors())
+  .use(json({ limit: "50mb" }))
+  .use(bodyParser.urlencoded({ extended: false, limit: "50mb" }))
   .use((req, _res, next) => {
     console.log(req.method, req.path, req.body ?? req.query);
     next();
