@@ -26,6 +26,7 @@ export const useGameStore = create(
           is_over: false,
           players: [],
           points: [],
+          revealVote: false,
         },
         currentPlayer: undefined,
       } as IState,

@@ -1,6 +1,5 @@
 import Pusher, { Channel, PresenceChannel } from "pusher-js";
-import reactZustandCreate from "zustand";
-import { createStore, StoreApi } from "zustand";
+import reactZustandCreate, { createStore, StoreApi } from "zustand";
 import createContext from "zustand/context";
 import React from "react";
 import UserFacade from "pusher-js/types/src/core/user";
@@ -53,7 +52,7 @@ const createPusherStore = (
   pusherClient.signin();
 
   const channel = pusherClient.subscribe(`game-${gameId}`);
-
+  console.log("g--", gameId);
   const userChannel = pusherClient.user;
 
   const presenceChannel = pusherClient.subscribe(
