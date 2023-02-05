@@ -1,10 +1,10 @@
-import React from "react";
 import { useGame } from "../../../store/useGame";
 
 type Props = {};
 
 const PlayerListView = (props: Props) => {
   const data = useGame();
+
   return (
     <>
       <div className="mt-10 overflow-x-auto">
@@ -23,7 +23,13 @@ const PlayerListView = (props: Props) => {
                 <tr key={s.id}>
                   <th>{i + 1}</th>
                   <td>{s.nickname}</td>
-                  <td>{s.vote}</td>
+                  {s.vote === 0 ? (
+                    <td></td>
+                  ) : data.revealVote ? (
+                    <td>{s.vote}</td>
+                  ) : (
+                    <td>?</td>
+                  )}
                   {s.is_party_leader ? <td>Yes</td> : <td></td>}
                 </tr>
               );

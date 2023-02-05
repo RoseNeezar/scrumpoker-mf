@@ -17,15 +17,28 @@ import StartGameButton from "./components/StartGameButton";
 
 const GameView = () => {
   const data = useGame();
-
   const currentPlayer = useCurrentPlayer();
   const { updateGame } = useGameActions();
+  const { mutateAsync } = trpc.game.revealAllVotes.useMutation();
+  const { mutateAsync: Offline } = trpc.game.playerOffline.useMutation();
   useSubscribeToEvent(
     "update-game",
     (data: { game: GameState }) => {
       updateGame(data.game);
     },
     "public"
+  );
+  useSubscribeToEvent(
+    "pusher:member_removed",
+    (payload: { id: string }) => {
+      Offline({
+        gameID: data.id,
+        playerId: payload.id,
+      })
+        .then((s) => null)
+        .catch();
+    },
+    "presence"
   );
   return (
     <div className="m-4">
@@ -44,7 +57,17 @@ const GameView = () => {
           {currentPlayer?.is_party_leader && <StartGameButton />}
           {currentPlayer?.is_party_leader && (
             <div className="mx-5 flex justify-end">
-              <div className="btn-primary btn">Show</div>
+              <button
+                className="btn-primary btn"
+                onClick={() =>
+                  mutateAsync({
+                    gameID: data.id,
+                    playerId: currentPlayer.id,
+                  })
+                }
+              >
+                {data.revealVote ? "Hide" : "Show"}
+              </button>
             </div>
           )}
           <PlayerListView />

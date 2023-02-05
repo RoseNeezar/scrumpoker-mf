@@ -31,6 +31,7 @@ export const gameRouter = router({
             is_party_leader: true,
             nickname: input.nickname,
             game_id: game.id,
+            online: true,
           },
         });
       } else {
@@ -103,6 +104,7 @@ export const gameRouter = router({
         where: {
           nickname: input.nickname,
           game_id: game.id,
+          online: true,
           game: {
             is_over: false,
             is_open: true,
@@ -129,22 +131,29 @@ export const gameRouter = router({
             nickname: input.nickname,
           },
           data: {
-            vote: 0,
-            is_party_leader: false,
             game_id: game.id,
+            online: true,
           },
         });
       } else {
         player = await ctx.prisma.player.create({
           data: {
+            vote: 0,
             is_party_leader: false,
             nickname: input.nickname,
             game_id: game.id,
+            online: true,
           },
         });
       }
+      const check = game.players.findIndex(
+        (s) => s.nickname === player!.nickname
+      );
 
-      game.players.push(player);
+      if (check === -1) {
+        game.players.push(player);
+      }
+
       try {
         await pusherServerClient.trigger(
           `game-${input.gameID}`,
@@ -161,5 +170,99 @@ export const gameRouter = router({
         game,
         currentPlayer: player,
       };
+    }),
+  playerVote: publicProcedure
+    .input(
+      z.object({ playerId: z.string(), gameID: z.string(), vote: z.number() })
+    )
+    .mutation(async ({ input, ctx }) => {
+      await ctx.prisma.player.update({
+        where: {
+          id: input.playerId,
+        },
+        data: {
+          vote: input.vote,
+        },
+      });
+
+      const game = await ctx.prisma.game.findFirst({
+        where: {
+          id: input.gameID,
+        },
+        include: {
+          players: true,
+        },
+      });
+
+      try {
+        await pusherServerClient.trigger(
+          `game-${input.gameID}`,
+          "update-game",
+          {
+            game,
+          }
+        );
+      } catch (error) {
+        console.log("pusher server error--", error);
+      }
+      return null;
+    }),
+  revealAllVotes: publicProcedure
+    .input(z.object({ playerId: z.string(), gameID: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const player = await ctx.prisma.player.findFirst({
+        where: {
+          id: input.playerId,
+        },
+      });
+
+      const game = await ctx.prisma.game.findFirst({
+        where: {
+          id: input.gameID,
+        },
+        include: {
+          players: true,
+        },
+      });
+
+      if (player && player.is_party_leader && game) {
+        const update = await ctx.prisma.game.update({
+          data: {
+            revealVote: !game.revealVote,
+          },
+          where: {
+            id: input.gameID,
+          },
+          include: {
+            players: true,
+          },
+        });
+
+        try {
+          await pusherServerClient.trigger(
+            `game-${input.gameID}`,
+            "update-game",
+            {
+              game: update,
+            }
+          );
+        } catch (error) {
+          console.log("pusher server error--", error);
+        }
+      }
+      return null;
+    }),
+  playerOffline: publicProcedure
+    .input(z.object({ playerId: z.string(), gameID: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      await ctx.prisma.player.update({
+        where: {
+          id: input.playerId,
+        },
+        data: {
+          online: false,
+        },
+      });
+      return null;
     }),
 });
