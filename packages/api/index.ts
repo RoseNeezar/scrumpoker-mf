@@ -21,7 +21,7 @@ export type PlayerType = Player;
 const PORT = 3001;
 
 const app = express();
-
+app.set("trust proxy", true);
 app.use(cors());
 app
   .use(json({ limit: "50mb" }))
