@@ -29,7 +29,7 @@ jobs:
           docker build -t rneezar2/scrumpoker-app-nginx ./nginx
       - name: docker build server
         run: |
-          docker build -t rneezar2/scrumpoker-app-server ./packages/api
+          docker build -t rneezar2/scrumpoker-app-server ./
       - name: docker push
         run: |
           docker push rneezar2/scrumpoker-app-nginx
