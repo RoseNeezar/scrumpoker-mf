@@ -115,7 +115,7 @@ export const gameRouter = router({
       if (otherPlayerInGame) {
         throw new trpc.TRPCError({
           code: "CONFLICT",
-          message: "Player name duplicate",
+          message: "Player name in used in game, use another",
         });
       }
 
@@ -263,6 +263,41 @@ export const gameRouter = router({
           online: false,
         },
       });
+      return null;
+    }),
+  newRound: publicProcedure
+    .input(z.object({ playerId: z.string(), gameID: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      await ctx.prisma.player.updateMany({
+        where: {
+          game_id: input.gameID,
+        },
+        data: {
+          vote: 0,
+        },
+      });
+      const game = await ctx.prisma.game.update({
+        where: {
+          id: input.gameID,
+        },
+        data: {
+          revealVote: false,
+        },
+        include: {
+          players: true,
+        },
+      });
+      try {
+        await pusherServerClient.trigger(
+          `game-${input.gameID}`,
+          "update-game",
+          {
+            game,
+          }
+        );
+      } catch (error) {
+        console.log("pusher server error--", error);
+      }
       return null;
     }),
 });
