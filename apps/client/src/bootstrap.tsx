@@ -7,7 +7,7 @@ import "./styles/globals.css";
 import { trpc } from "./utils/trpc";
 import superjson from "superjson";
 import { BrowserRouter } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 
 const getBaseUrl = () => {
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`; // SSR should use vercel url
@@ -21,9 +21,15 @@ function Client() {
       new QueryClient({
         defaultOptions: {
           queries: {
-            refetchOnWindowFocus: false,
             staleTime: Infinity,
-            cacheTime: 0,
+            refetchOnMount: false,
+            refetchOnWindowFocus: false,
+            refetchOnReconnect: false,
+          },
+          mutations: {
+            onError(error: any, variables, context) {
+              toast.error(error.shape.message);
+            },
           },
         },
       })
