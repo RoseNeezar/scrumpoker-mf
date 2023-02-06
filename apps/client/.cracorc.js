@@ -33,26 +33,26 @@ module.exports = {
         new NodePolyfillPlugin({
           excludeAliases: ["console"],
         }),
-        // new ModuleFederationPlugin({
-        //   name: "scrumpoker_mf",
-        //   filename: "remoteEntry.js",
-        //   exposes: {
-        //     "./Scrumpoker": "./src/bootstrap",
-        //   },
-        //   shared: {
-        //     ...deps,
-        //     react: {
-        //       singleton: true,
-        //       eager: true,
-        //       requiredVersion: deps.react,
-        //     },
-        //     "react-dom": {
-        //       singleton: true,
-        //       eager: true,
-        //       requiredVersion: deps["react-dom"],
-        //     },
-        //   },
-        // }),
+        new ModuleFederationPlugin({
+          name: "scrumpoker",
+          filename: "remoteEntry.js",
+          exposes: {
+            "./Scrumpoker": "./src/bootstrap",
+          },
+          shared: {
+            ...deps,
+            react: {
+              singleton: true,
+              eager: true,
+              requiredVersion: deps.react,
+            },
+            "react-dom": {
+              singleton: true,
+              eager: true,
+              requiredVersion: deps["react-dom"],
+            },
+          },
+        }),
       ],
     },
   },
