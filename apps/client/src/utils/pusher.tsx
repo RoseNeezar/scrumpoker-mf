@@ -13,6 +13,8 @@ const pusher_server_port = parseInt(
 const pusher_server_tls = process.env.REACT_APP_PUSHER_SERVER_TLS === "true";
 const pusher_server_cluster = process.env.REACT_APP_PUSHER_SERVER_CLUSTER!;
 
+const server_url = process.env.REACT_APP_SERVER_URL;
+
 interface PusherZustandStore {
   pusherClient: Pusher;
   channel: Channel;
@@ -38,14 +40,14 @@ const createPusherStore = (
     forceTLS: false,
     cluster: "",
     disableStats: true,
-    authEndpoint: "http://localhost:3001/api/pusher/auth-channel",
+    authEndpoint: `${server_url}/api/pusher/auth-channel`,
     auth: {
-      headers: { user_id: playerId, nickname },
+      headers: { userId: playerId, nickname },
     },
     userAuthentication: {
-      endpoint: "http://localhost:3001/api/pusher/auth-user",
+      endpoint: `${server_url}/api/pusher/auth-user`,
       transport: "ajax",
-      headers: { user_id: playerId, nickname },
+      headers: { userId: playerId, nickname },
     },
   });
 

@@ -8,11 +8,11 @@ import { trpc } from "./utils/trpc";
 import superjson from "superjson";
 import { BrowserRouter } from "react-router-dom";
 import { Toaster, toast } from "react-hot-toast";
-
+const server_url = process.env.REACT_APP_SERVER_URL;
 const getBaseUrl = () => {
   if (process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}`; // SSR should use vercel url
 
-  return `http://localhost:3001`; // dev SSR should use localhost
+  return server_url; // dev SSR should use localhost
 };
 
 function Client() {
