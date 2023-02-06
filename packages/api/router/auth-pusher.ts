@@ -9,7 +9,7 @@ export const authUser = async (
 ) => {
   const { socket_id } = req.body;
   const { userid, nickname } = req.headers;
-  console.log("---headers--user-", req.headers, req.body);
+
   if (!userid || typeof userid !== "string") {
     res.status(404).send("lol");
     return;
@@ -33,7 +33,7 @@ export const authChannel = async (
 ) => {
   const { channel_name, socket_id } = req.body;
   const { userid, nickname } = req.headers;
-  console.log("---headers--channel-", req.headers, req.body);
+
   if (!userid || typeof userid !== "string") {
     res.status(404).send("lol");
     return;
