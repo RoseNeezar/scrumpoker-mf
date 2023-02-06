@@ -15,7 +15,7 @@ const getBaseUrl = () => {
   return server_url; // dev SSR should use localhost
 };
 
-function Client() {
+function Client({ mf }: { mf?: string }) {
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -48,7 +48,7 @@ function Client() {
   return (
     <trpc.Provider client={trpcClient} queryClient={queryClient}>
       <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
+        <BrowserRouter basename={mf ? `/${mf}` : "/"}>
           <App />
           <Toaster />
         </BrowserRouter>
@@ -57,10 +57,10 @@ function Client() {
   );
 }
 
-const Mount = (el: HTMLElement) => {
+const Mount = (el: HTMLElement, mf?: string) => {
   ReactDOM.createRoot(el).render(
     <React.StrictMode>
-      <Client />
+      <Client mf={mf} />
     </React.StrictMode>
   );
 };
