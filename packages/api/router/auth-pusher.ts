@@ -8,15 +8,15 @@ export const authUser = async (
   res: Response
 ) => {
   const { socket_id } = req.body;
-  const { userId, nickname } = req.headers;
+  const { userid, nickname } = req.headers;
   console.log("---headers--user-", req.headers, req.body);
-  if (!userId || typeof userId !== "string") {
+  if (!userid || typeof userid !== "string") {
     res.status(404).send("lol");
     return;
   }
 
   const auth = pusherServerClient.authenticateUser(socket_id, {
-    id: userId,
+    id: userid,
     user_info: {
       name: nickname,
     },
@@ -32,15 +32,15 @@ export const authChannel = async (
   res: Response
 ) => {
   const { channel_name, socket_id } = req.body;
-  const { userId, nickname } = req.headers;
+  const { userid, nickname } = req.headers;
   console.log("---headers--channel-", req.headers, req.body);
-  if (!userId || typeof userId !== "string") {
+  if (!userid || typeof userid !== "string") {
     res.status(404).send("lol");
     return;
   }
 
   const auth = pusherServerClient.authorizeChannel(socket_id, channel_name, {
-    user_id: userId,
+    user_id: userid,
     user_info: {
       name: nickname,
     },
