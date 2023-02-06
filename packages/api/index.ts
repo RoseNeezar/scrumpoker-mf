@@ -22,7 +22,11 @@ const PORT = 3001;
 
 const app = express();
 app.set("trust proxy", true);
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app
   .use(json({ limit: "50mb" }))
   .use(bodyParser.urlencoded({ extended: false, limit: "50mb" }))
