@@ -100,7 +100,9 @@ const CreateGame = (props: Props) => {
                   </div>
                   <button
                     type="submit"
-                    className={`btn-primary btn flex w-full justify-center px-4 py-2 text-sm `}
+                    className={`${
+                      isLoading ? "loading" : ""
+                    } btn-primary btn flex w-full justify-center px-4 py-2 text-sm `}
                   >
                     Ok
                   </button>

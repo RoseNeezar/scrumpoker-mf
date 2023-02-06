@@ -19,7 +19,7 @@ const GameView = () => {
   const data = useGame();
   const currentPlayer = useCurrentPlayer();
   const { updateGame } = useGameActions();
-  const { mutateAsync } = trpc.game.revealAllVotes.useMutation();
+  const { mutateAsync, isLoading } = trpc.game.revealAllVotes.useMutation();
   const { mutateAsync: Offline } = trpc.game.playerOffline.useMutation();
   useSubscribeToEvent(
     "update-game",
@@ -58,7 +58,7 @@ const GameView = () => {
           {currentPlayer?.is_party_leader && (
             <div className="mx-5 flex justify-end">
               <button
-                className="btn-primary btn"
+                className={`${isLoading ? "loading" : ""}btn-primary btn`}
                 onClick={() =>
                   mutateAsync({
                     gameID: data.id,

@@ -31,7 +31,7 @@ const JoinGame = ({ gameID, closeModal }: Props) => {
     resolver: zodResolver(schema),
   });
 
-  const { mutateAsync } = trpc.game.joinGame.useMutation({
+  const { mutateAsync, isLoading } = trpc.game.joinGame.useMutation({
     onSuccess: (data) => {
       if (data && data.game.id) {
         useGameStore.setState({
@@ -124,7 +124,9 @@ const JoinGame = ({ gameID, closeModal }: Props) => {
                   <div>
                     <button
                       type="submit"
-                      className="btn-primary btn flex w-full justify-center px-4 py-2 text-sm"
+                      className={`${
+                        isLoading ? "loading" : ""
+                      } btn-primary btn flex w-full justify-center px-4 py-2 text-sm`}
                     >
                       Ok
                     </button>
